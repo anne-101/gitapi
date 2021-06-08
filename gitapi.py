@@ -14,12 +14,7 @@ class GitApi:
             self.git = "git"
         self.user = ops.username
         self.pat = ops.pat
-        if ops.task == "push" or ops.task == "commit":
-            branch = ops.branch
-            if branch == "":
-                branch = subprocess.run(self.git+' rev-parse --abbrev-ref HEAD', shell=True, check=True, text=True, stdout=subprocess.PIPE).stdout.strip()
-            self.branch = branch
-        elif ops.task == "clone" or ops.task == "pr" or ops.task == "pr_comment" or ops.task == "pr_merge":
+        if ops.task == "clone" or ops.task == "pr" or ops.task == "pr_comment" or ops.task == "pr_merge":
             self.repo = ops.repo
             org = ops.org
             if ops.org == "":
@@ -39,6 +34,11 @@ class GitApi:
             self.message = ops.message
         elif ops.task == "pull":
             self.branch = ops.branch
+        elif ops.task == "push":
+            branch = ops.branch
+            if branch == "":
+                branch = subprocess.run(self.git+' rev-parse --abbrev-ref HEAD', shell=True, check=True, text=True, stdout=subprocess.PIPE).stdout.strip()
+            self.branch = branch
         elif ops.task == "pr":
             self.title = ops.title
             self.body = ops.body
@@ -136,7 +136,6 @@ if __name__ == "__main__":
     commit_parser = sub.add_parser("commit")
     commit_parser.add_argument("files", help="comma seperated list of files to commit (no spaces), passing A commits all")
     commit_parser.add_argument("message", help="commit message")
-    commit_parser.add_argument("--branch", help="branch to commit to, default is current branch", dest="branch", default="")
     # pull parser
     pull_parser = sub.add_parser("pull")
     pull_parser.add_argument("--branch", help="branch to pull from, default is to pull all", dest="branch", default="")
