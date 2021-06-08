@@ -163,7 +163,7 @@ if __name__ == "__main__":
     prmerge_parser.add_argument("--org", help="git org or user the repo belongs to, default is current user", dest="org", default="")
     prmerge_parser.add_argument("--title", help="title of your merge commit, default is 'PR merge'", dest="title", default="PR merge")
     prmerge_parser.add_argument("--message", help="detailed message of your merge commit, default is blank", dest="message", default="")
-    prmerge_parser.add_argument("--method", help="merge method to use, merge, squash, or rebase, default is merge", dest="method" choices=["merge","squash","rebase"], default="merge")
+    prmerge_parser.add_argument("--method", help="merge method to use, merge, squash, or rebase, default is merge", dest="method", choices=["merge","squash","rebase"], default="merge")
     prmerge_parser.add_argument("pr_num", help="pull request number")
     
     ops = parser.parse_args()
